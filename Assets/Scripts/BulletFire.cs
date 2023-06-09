@@ -7,11 +7,11 @@ public class BulletFire : MonoBehaviour
 {
 
     public GameObject bullet;
+    public PlayerMovement playerMovement;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame
@@ -19,7 +19,10 @@ public class BulletFire : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z)) 
         {
-            Instantiate(bullet, transform.position, Quaternion.identity);
+            var obj = Instantiate(bullet, transform.position, Quaternion.identity);
+            var bulletScript = obj.AddComponent<Bullet>();
+
+            bulletScript.direction = playerMovement.facing;
         }
     }
 }

@@ -7,42 +7,29 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D _rigid;
     public float speed;
+    public Vector2 facing;
 
     private void Awake()
     {
+        facing = Vector2.up;
         _rigid = GetComponent<Rigidbody2D>();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
 
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            _rigid.velocity = Vector2.down * speed;
-        }
+        Vector2 moveDirection = Vector2.zero;
 
-        else if (Input.GetKey(KeyCode.UpArrow))
-        {
-            _rigid.velocity = Vector2.up * speed;
-        }
+        if (Input.GetKey(KeyCode.DownArrow)) moveDirection += Vector2.down;
+        if (Input.GetKey(KeyCode.UpArrow)) moveDirection += Vector2.up;
+        if (Input.GetKey(KeyCode.LeftArrow)) moveDirection += Vector2.left;
+        if (Input.GetKey(KeyCode.RightArrow)) moveDirection += Vector2.right;
 
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            _rigid.velocity = Vector2.right * speed;
-        }
+        moveDirection.Normalize();
 
-        else if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            _rigid.velocity = Vector2.left * speed;
-        }
+        _rigid.velocity = moveDirection * speed;
 
-        else _rigid.velocity = Vector2.zero;
+        if (moveDirection != Vector2.zero) facing = moveDirection;
 
     }
 }
